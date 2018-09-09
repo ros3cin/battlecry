@@ -1,0 +1,491 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>Battlecry Readme</title>
+  <meta content="Marek &quot;Wansti&quot; Moeckel" name="author">
+</head>
+<body style="color: rgb(0, 0, 0); background-color: rgb(87, 140, 157);"
+ alink="#000099" link="#000099" vlink="#990099">
+<div style="text-align: center;">
+<img src="data/images/bcBanner.jpg">
+<div style="text-align: right;">Version 0.1<br>
+Copyright 2003 by<br>
+Marek "Wansti" Moeckel<br>
+<a href="mailto:marek@wansti.de">marek@wansti.de</a><br>
+<a href="http://battlecry.wansti.de">http://battlecry.wansti.de</a><br>
+</div>
+<br>
+<h1></h1>
+<div style="text-align: left;">
+<h3>1. Introduction<br>
+2. How To Use<br>
+3. Battlecry Modules<br>
+4. Changelog<br>
+5. Special Thanks<br>
+</h3>
+<br>
+<h3>1. Introduction</h3>
+<h4>1.1 What is Battlecry?<br>
+</h4>
+First of all, don't get me wrong: I really like heavy metal music.
+Among the countless bands, there are some around that have rather...
+ahem... interesting lyrics. Did you ever
+want to write songs like that, but you just coudn't think of the right
+lyrics? No problem with "Battlecry"!<br>
+Battlecry loads a data file that contains word lists, grammatical
+structures and layout information and generates a random set of lyrics
+according to that information. It was designed with heavy metal lyrics
+in mind, but modules can be written for any other type of song.<br>
+This tool's intention is to be entertaining; however, if you really
+want to use its output as lyrics for a real song, you are free to do
+so. In that case, please send me a demo tape... :-)<br>
+<h4>1.2 License</h4>
+Battlecry and its source code can be freely distributed under the terms
+of the <a href="http://www.gnu.org/copyleft/gpl.html">GNU General
+Public License (GPL)</a>.<br>
+If you use, redistribute and/or modify it, I'd appreciate if you let me
+know. Feel free to send comments, suggestions, modules, code, etc. as
+well; please use the email address given above.<br>
+<br>
+<h3>2. How To Use<br>
+</h3>
+<h4>2.1 Installation<br>
+</h4>
+Battlecry is written in Java, so in order to run it (or any other Java
+application), you need the Java 2 Runtime Environment. If you want to
+compile the program yourself, you need the Java 2 SDK. Both are
+available for free download at <a href="http://java.sun.com">java.sun.com</a>.
+Battlecry should run on any platform that can run Java applications; it
+was tested on Linux and Windows.<br>
+Once you have it installed, unzip the battlecry archive to your hard
+drive. Start the program by typing "java battlecry" at
+the command line prompt. If no module file is given (with the -m
+switch), the program will
+attempt to load the standard module at data/battlecry.pak. If you want
+to
+use the graphical user interface (GUI), type "java frontend" instead.<br>
+<h4>2.2 How to use<br>
+</h4>
+At the moment, Battlecry only loads a module, generates a set of
+lyrics, displays it on the screen and exits. To change something, you
+need to edit a module or create a new one. See section 3 for details.<br>
+<br>
+If you use the command line interface ("java battlecry") you can use
+the parameter -h to get a list of options.<br>
+<br>
+Alternatively, you can use the graphical user interface ("java
+frontend"). You can choose a module file to load, generate lyrics and
+use the layout field on the upper right of the screen to use a custom
+layout (see section 3.2 for details). After typing the layout you must
+hit the reload button for the changes to take effect.<br>
+<br>
+<h3>3. Battlecry Modules<br>
+</h3>
+<h4>3.1 What is a Battlecry Module?</h4>
+Battlecry gets its information from a single data file, a Battlecry
+Module. This is actually a plain zip file containing grammar and layout
+structures as well as word lists. The "layout.dat" file holds
+information about the outer form - verses, choruses, rhyme schemes
+("aabb", "ababcc",...) and number of lines. The "grammar.dat" file
+states what a single line of text can look like (example: "We [verb]
+the [verb] of the [noun]."). Verbs, nouns, adjectives etc. are randomly
+loaded from the specific word list (in this example, the files
+"noun.lst" and "verb.lst" must exist inside the module). Finally, every
+module has a file called "info.dat" which contains name, author,
+version and description of a module. A detailed
+description follows.<br>
+<h4>3.2 The Layout File<br>
+</h4>
+Every Battlecry module needs a file called "layout.dat". At the moment,
+there are four different keywords that can be used: "lines", "verse",
+"bridge",
+and "chorus". Every keyword is followed by a ":" and a number / rhyme
+scheme. The keywords do the following:<br>
+-"lines:n" generates a bunch of completely random, non-rhyming lines
+where n is the number of lines.<br>
+-"bridge:n" generates n random lines, every second line rhymes with its
+predecessor. If n is an odd number, it will be automatically increased
+by 1.<br>
+-"chorus:s" generates rhyming lines according to the given rhyme scheme
+s. s is a string&nbsp; which constists of the characters a,b,c,d,e,
+each representing a rhyming line. Each character must not appear more
+than three times!<br>
+-"verse:s" generates rhyming lines according to the rhyme scheme
+s.&nbsp; Unlike the chorus, verses are not repeated but newly
+generated&nbsp; every time. <br>
+Here is an example layout.dat file:<br>
+<br>
+verse:aabbccdd<br>
+chorus:aabbcc<br>
+lines:6<br>
+chorus:aabbcc<br>
+bridge:2<br>
+chorus:aabbcc<br>
+<br>
+This will generate 4 pairs of rhyming lines, followed by a chorus of 3
+pairs of rhyming
+lines, then 6 random lines, repeated chorus, 2 rhyming lines, repeated
+chorus.<br>
+Note that verses and bridges are different everytime, while the chorus
+is only generated once and repeated; thus, the rhyme scheme is
+interpreted only in the first "chorus" line.<br>
+Apart from those keywords, you can use the names of segments from
+"grammar.dat" - see below for details.<br>
+Hint: The command line parameter "-l &lt;filename&gt;" allows you to
+use
+another layout file instead of the one inside the module.<br>
+If you use the GUI, you can type a valid layout right into the layout
+field and hit the "Reload" button.<br>
+<br>
+<h4>3.3 The Grammar File<br>
+</h4>
+Every Battlecry module must contain a file called "grammar.dat". It
+holds information about how a line of text is formed. Let's look at a
+simple example:<br>
+<br>
+START={<span style="color: rgb(102, 102, 102);">[EXAMPLE1</span><span
+ style="color: rgb(255, 255, 0);"><span
+ style="color: rgb(102, 102, 102);">]</span>#<span
+ style="color: rgb(102, 102, 102);">[</span></span><span
+ style="color: rgb(102, 102, 102);">EXAMPLE2]</span>}<br>
+TITLE={<span style="color: rgb(102, 102, 102);">[TITLE1</span><span
+ style="color: rgb(255, 255, 0);"><span
+ style="color: rgb(102, 102, 102);">]</span>#<span
+ style="color: rgb(102, 102, 102);">[</span></span><span
+ style="color: rgb(102, 102, 102);">TITLE2]</span>}<br>
+<br>
+TITLE1={<span style="color: rgb(51, 0, 153);">noun</span><span
+ style="color: rgb(255, 255, 0);">;<span style="color: rgb(204, 0, 0);">'</span></span><span
+ style="color: rgb(204, 0, 0);">of</span><span
+ style="color: rgb(255, 255, 0);"><span style="color: rgb(204, 0, 0);">'</span>;*<span
+ style="color: rgb(204, 0, 0);">'</span></span><span
+ style="color: rgb(204, 0, 0);">the</span><span
+ style="color: rgb(255, 255, 0);"><span style="color: rgb(204, 0, 0);">'</span>;</span><span
+ style="color: rgb(51, 0, 153);">noun</span>}<br>
+TITLE2={<span style="color: rgb(51, 0, 153);">verb</span><span
+ style="color: rgb(255, 255, 0);">;<span style="color: rgb(204, 0, 0);">'</span></span><span
+ style="color: rgb(204, 0, 0);">for</span><span
+ style="color: rgb(255, 255, 0);"><span style="color: rgb(204, 0, 0);">'</span>#<span
+ style="color: rgb(204, 0, 0);">'</span></span><span
+ style="color: rgb(204, 0, 0);">to</span><span
+ style="color: rgb(255, 255, 0);"><span style="color: rgb(204, 0, 0);">'</span>;*<span
+ style="color: rgb(204, 0, 0);">'</span></span><span
+ style="color: rgb(204, 0, 0);">the</span><span
+ style="color: rgb(255, 255, 0);"><span style="color: rgb(204, 0, 0);">'</span>;</span><span
+ style="color: rgb(51, 0, 153);">noun</span>}<br>
+<br>
+EXAMPLE1={<span style="color: rgb(204, 0, 0);">'We</span><span
+ style="color: rgb(255, 255, 0);"><span style="color: rgb(204, 0, 0);">'</span>;</span><span
+ style="color: rgb(51, 0, 153);">verb</span><span
+ style="color: rgb(255, 255, 0);">;<span style="color: rgb(204, 0, 0);">'</span></span><span
+ style="color: rgb(204, 0, 0);">to</span><span
+ style="color: rgb(255, 255, 0);"><span style="color: rgb(204, 0, 0);">'</span>;</span><span
+ style="color: rgb(51, 0, 153);">verb</span><span
+ style="color: rgb(255, 255, 0);">;*<span style="color: rgb(204, 0, 0);">'</span></span><span
+ style="color: rgb(204, 0, 0);">the</span><span
+ style="color: rgb(255, 255, 0);"><span style="color: rgb(204, 0, 0);">'</span>;</span><span
+ style="color: rgb(51, 0, 153);">noun</span>}<br>
+EXAMPLE2={<span style="color: rgb(204, 0, 0);">'We fight for the</span><span
+ style="color: rgb(255, 255, 0);"><span style="color: rgb(204, 0, 0);">'</span>;</span><span
+ style="color: rgb(51, 0, 153);">noun</span><span
+ style="color: rgb(255, 255, 0);">;*<span
+ style="color: rgb(102, 102, 102);">[</span></span><span
+ style="color: rgb(102, 102, 102);">OFTHE]</span>}<br>
+OFTHE={<span style="color: rgb(204, 0, 0);">'of</span><span
+ style="color: rgb(255, 255, 0);"><span style="color: rgb(204, 0, 0);">'</span>;*<span
+ style="color: rgb(204, 0, 0);">'</span></span><span
+ style="color: rgb(204, 0, 0);">the</span><span
+ style="color: rgb(255, 255, 0);"><span style="color: rgb(204, 0, 0);">'</span>;</span><span
+ style="color: rgb(51, 0, 153);">noun</span>}<br>
+<br>
+The capital words are segments (they don't need to be capital but
+it's easier to recognize). Each segment looks like this:
+SEGMENTNAME=(expression).<br>
+Expressions are built from one or more of the following parts,
+separated by a semicolon (<span style="color: rgb(255, 255, 0);">;</span>):<br>
+&nbsp;&nbsp;&nbsp; -<span style="color: rgb(204, 0, 0);">Strings:</span>
+Actual words that appear in that line of text, marked by <span
+ style="color: rgb(204, 0, 0);">'<span style="color: rgb(0, 0, 0);">.</span></span>
+Example: <span style="color: rgb(204, 0, 0);">'We fight for the'</span><br>
+&nbsp;&nbsp;&nbsp; -<span style="color: rgb(51, 0, 153);">Words from a
+list:</span> Unmarked Strings are interpreted as names of list files.
+Example: <span style="color: rgb(51, 0, 153);">noun <span
+ style="color: rgb(0, 0, 0);">will be replaced by a random word from
+the file "noun.lst"<br>
+&nbsp;&nbsp;&nbsp; -</span></span><span style="color: rgb(51, 0, 153);"><span
+ style="color: rgb(0, 0, 0);"><span style="color: rgb(102, 102, 102);">Segments<span
+ style="color: rgb(0, 0, 0);">: The name of another segment, marked by </span></span></span></span><span
+ style="color: rgb(51, 0, 153);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(102, 102, 102);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(255, 255, 0);"><span
+ style="color: rgb(102, 102, 102);">[</span></span><span
+ style="color: rgb(102, 102, 102);">]</span>. Example: </span></span></span></span><span
+ style="color: rgb(51, 0, 153);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(102, 102, 102);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(51, 0, 153);">noun</span></span></span></span></span><span
+ style="color: rgb(51, 0, 153);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(102, 102, 102);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(51, 0, 153);"><span style="color: rgb(255, 255, 0);">;</span></span></span></span></span></span><span
+ style="color: rgb(51, 0, 153);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(102, 102, 102);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(255, 255, 0);"><span
+ style="color: rgb(102, 102, 102);">[</span></span><span
+ style="color: rgb(102, 102, 102);">OFTHE] <span
+ style="color: rgb(0, 0, 0);">will be interpreted as </span></span></span></span></span></span><span
+ style="color: rgb(51, 0, 153);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(102, 102, 102);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(102, 102, 102);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(51, 0, 153);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(102, 102, 102);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(102, 102, 102);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(51, 0, 153);">noun</span></span></span></span></span></span></span></span></span></span></span></span></span><span
+ style="color: rgb(51, 0, 153);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(102, 102, 102);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(102, 102, 102);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(255, 255, 0);">;</span></span></span></span></span></span></span><span
+ style="color: rgb(51, 0, 153);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(102, 102, 102);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(102, 102, 102);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(204, 0, 0);">'of</span><span
+ style="color: rgb(255, 255, 0);"><span style="color: rgb(204, 0, 0);">'</span>;*<span
+ style="color: rgb(204, 0, 0);">'</span></span><span
+ style="color: rgb(204, 0, 0);">the</span><span
+ style="color: rgb(255, 255, 0);"><span style="color: rgb(204, 0, 0);">'</span>;</span><span
+ style="color: rgb(51, 0, 153);">noun<span style="color: rgb(0, 0, 0);">.<br>
+<br>
+Modifiers (can be used before strings, word lists and segments):<br>
+&nbsp;&nbsp;&nbsp; <span style="color: rgb(255, 255, 0);">*<span
+ style="color: rgb(0, 0, 0);"> marks a part as optional. The randomizer
+decides if that part is used in a line or not. Example:&nbsp;</span></span></span></span></span></span></span></span></span></span><span
+ style="color: rgb(51, 0, 153);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(102, 102, 102);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(102, 102, 102);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(51, 0, 153);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(255, 255, 0);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(51, 0, 153);"></span><span
+ style="color: rgb(255, 255, 0);"><span style="color: rgb(204, 0, 0);"></span></span><span
+ style="color: rgb(204, 0, 0);">'Sword of</span><span
+ style="color: rgb(255, 255, 0);"><span style="color: rgb(204, 0, 0);">'</span>;*<span
+ style="color: rgb(204, 0, 0);">'</span></span><span
+ style="color: rgb(204, 0, 0);">the</span><span
+ style="color: rgb(255, 255, 0);"><span style="color: rgb(204, 0, 0);">'</span>;</span><span
+ style="color: rgb(51, 0, 153);"></span></span></span></span></span></span></span></span></span></span></span><span
+ style="color: rgb(51, 0, 153);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(102, 102, 102);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(102, 102, 102);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(51, 0, 153);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(255, 255, 0);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(51, 0, 153);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(51, 0, 153);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(102, 102, 102);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(102, 102, 102);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(51, 0, 153);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(255, 255, 0);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(255, 255, 0);"><span style="color: rgb(204, 0, 0);">'</span></span><span
+ style="color: rgb(204, 0, 0);">King</span><span
+ style="color: rgb(255, 255, 0);"><span style="color: rgb(204, 0, 0);">'</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span
+ style="color: rgb(51, 0, 153);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(102, 102, 102);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(102, 102, 102);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(51, 0, 153);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(255, 255, 0);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(51, 0, 153);"><span style="color: rgb(0, 0, 0);">
+can turn out as "Sword of the King" or "Sword of King".<br>
+&nbsp;&nbsp;&nbsp; <span style="color: rgb(255, 255, 0);">#</span>
+means "or". Example:</span></span></span></span></span></span></span></span></span></span></span></span><span
+ style="color: rgb(51, 0, 153);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(102, 102, 102);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(102, 102, 102);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(51, 0, 153);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(255, 255, 0);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(51, 0, 153);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(102, 102, 102);"> [TITLE1</span><span
+ style="color: rgb(255, 255, 0);"><span
+ style="color: rgb(102, 102, 102);">]</span>#<span
+ style="color: rgb(102, 102, 102);">[</span></span><span
+ style="color: rgb(102, 102, 102);">TITLE2]<span
+ style="color: rgb(0, 0, 0);"></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span
+ style="color: rgb(51, 0, 153);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(102, 102, 102);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(102, 102, 102);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(51, 0, 153);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(255, 255, 0);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(51, 0, 153);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(102, 102, 102);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(51, 0, 153);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(102, 102, 102);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(102, 102, 102);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(51, 0, 153);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(255, 255, 0);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(51, 0, 153);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(255, 255, 0);">#<span
+ style="color: rgb(102, 102, 102);">[</span></span><span
+ style="color: rgb(102, 102, 102);">TITLE3]</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span
+ style="color: rgb(51, 0, 153);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(102, 102, 102);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(102, 102, 102);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(51, 0, 153);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(255, 255, 0);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(51, 0, 153);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(102, 102, 102);"><span style="color: rgb(0, 0, 0);">
+randomly chooses either TITLE1 or TITLE2 or TITLE3.<br>
+<br>
+Update: Since 0.62, Battlecry can handle brackets inside grammatical
+segments, for example:<br>
+START={'Fight';('for the';noun)#('to';verb)}<br>
+Brackets inside brackets are not allowed yet.<br>
+<br>
+Important: The "grammar.dat" file must contain at least two lines:
+START={expression} and TITLE={expression}, where START is the beginning
+of every line and TITLE is the title of the song.<br>
+<br>
+</span></span></span></span></span></span></span></span></span></span></span></span></span></span>
+<h4>3.4 The Word Lists<br>
+</h4>
+The number and names of the needed word lists depend on the grammatical
+structure described in the "grammar.dat" file. For the above example,
+two word lists are needed: "noun.lst" and "verb.lst". Here is an
+example word list:<br>
+<br>
+IFE;life,knife,wife<br>
+AR;star,car<br>
+ARROT;carrot<br>
+<span style="color: rgb(51, 0, 153);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(102, 102, 102);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(102, 102, 102);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(51, 0, 153);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(255, 255, 0);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(51, 0, 153);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(102, 102, 102);"><span style="color: rgb(0, 0, 0);"></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span
+ style="color: rgb(51, 0, 153);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(102, 102, 102);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(102, 102, 102);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(51, 0, 153);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(255, 255, 0);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(51, 0, 153);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(51, 0, 153);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(102, 102, 102);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(102, 102, 102);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(51, 0, 153);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(255, 255, 0);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(255, 255, 0);"><span style="color: rgb(204, 0, 0);"></span></span><span
+ style="color: rgb(204, 0, 0);"></span><span
+ style="color: rgb(255, 255, 0);"><span style="color: rgb(204, 0, 0);"></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span
+ style="color: rgb(51, 0, 153);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(102, 102, 102);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(102, 102, 102);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(51, 0, 153);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(255, 255, 0);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(51, 0, 153);"><span style="color: rgb(0, 0, 0);"></span></span></span></span></span></span></span></span></span></span></span></span><span
+ style="color: rgb(51, 0, 153);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(102, 102, 102);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(102, 102, 102);"><span style="color: rgb(0, 0, 0);"><span
+ style="color: rgb(51, 0, 153);"><span style="color: rgb(0, 0, 0);"></span></span></span></span></span></span></span></span><br>
+The capital part is the rhyming syllable, followed by a semicolon and
+one or more words, separated by commas. Battlecry interprets all words
+as rhyming that have exactly the same rhyming syllable. This is
+important so words from different lists are found rhyming. For example,
+to make sure "arrive" rhymes with "life", add the line "IFE;arrive" to
+the "verb.lst" file.<br>
+Note: Instead of IFE/AR/ARROT, 1/2/3 would work as well, but that'll
+get very confusing with big word lists.<br>
+Hint: If you use segments in "grammar.dat" that end with a fixed string
+(example: TITLE=('Let us';verb;'until tonight')), make sure the last
+word ("tonight") appears in a word list so that line can rhyme with
+another line. If it doesn't fit in any of the lists, create a new one
+for those "last words". Battlecry will load it although it isn't used
+by the grammar.<br>
+<br>
+<h4>3.5 The Info File<br>
+</h4>
+The file info.dat structure is very straightforward. It holds a few
+module options and information about the module (i.e. name, author,
+version and comment) that can be accessed by using the "-i
+&lt;filename&gt; command
+line option. Here's an example:<br>
+<br>
+NAME=Example Module<br>
+AUTHOR=Some Random Guy<br>
+VERSION=0.1<br>
+COMMENT=This is an example module.<br>
+OPTION_SYLLABLE_TOLERANCE=3<br>
+<br>
+OPTION_SYLLABLE_TOLERANCE is the amount of syllables in that two or
+three rhyming lines
+may differ. A lower value may result in longer loading time while a
+higher value will cause lines that differ in length.<br>
+Experiment with this option to get the best results out of your module.<br>
+<br>
+<h4>3.6 Editing And Creating Modules<br>
+</h4>
+To edit a module, simply unzip it, edit the .dat or .lst files, put
+them back into an archive and load it with Battlecry.<br>
+When creating new modules, be careful to use correct syntax, especially
+in the .dat files. Don't create infinite loops in your segment
+structure, and don't use directories inside the zip archive. Since
+Battlecry is still in early stages it doesn't yet handle all exceptions.<br>
+<br>
+<h3>4. Changelog</h3>
+<br>
+<h4>Plans for upcoming versions:<br>
+</h4>
+&nbsp;&nbsp;&nbsp; finish the GUI<br>
+&nbsp;&nbsp;&nbsp; improve code and documentation<br>
+&nbsp;&nbsp;&nbsp; improve support for German grammar<br>
+&nbsp;&nbsp;&nbsp; add textfile-to-listfile converter<br>
+&nbsp;&nbsp;&nbsp; add module editor<br>
+&nbsp;&nbsp;&nbsp; improve Groeni module<br>
+<h4>Version 0.1<br>
+</h4>
+&nbsp;&nbsp;&nbsp; initial version to appear on sourceforge.net<br>
+&nbsp;&nbsp;&nbsp; grammar can handle brackets now<br>
+&nbsp;&nbsp;&nbsp; added Battlecry Live<br>
+&nbsp;&nbsp;&nbsp; additions to the battlecry module<br>
+&nbsp;&nbsp;&nbsp; internal cleanups<br>
+<h4>Version 0.06<br>
+</h4>
+&nbsp;&nbsp;&nbsp; can also load directories (containing unzipped
+modules)<br>
+&nbsp;&nbsp;&nbsp; improved module loading times for big word lists<br>
+&nbsp;&nbsp;&nbsp; added graphical user interface (optional, under
+construction)<br>
+&nbsp;&nbsp;&nbsp; added parameters and functionality: -h, -i, -l, -m,
+-v<br>
+&nbsp;&nbsp;&nbsp; added info.dat files to modules<br>
+&nbsp;&nbsp;&nbsp; added a new module (Groeni)<br>
+<h4>Version 0.05<br>
+</h4>
+&nbsp;&nbsp;&nbsp; initial GPL release<br>
+&nbsp;&nbsp;&nbsp; zip archive support<br>
+&nbsp;&nbsp;&nbsp; rhyme schemes<br>
+&nbsp;&nbsp;&nbsp; layout file support<br>
+&nbsp;&nbsp;&nbsp; rhyming<br>
+&nbsp;&nbsp;&nbsp; module support<br>
+<h4>Version 0.01</h4>
+&nbsp;&nbsp;&nbsp; initial version (Wacken 2003 Release)<br>
+<br>
+<h3>5. Special Thanks<br>
+</h3>
+<h4>5.1 Special Thanks go to:<br>
+</h4>
+&nbsp;&nbsp;&nbsp; My brother, Niels: He spent hours listening to heavy
+metal, filling the word lists.<br>
+&nbsp;&nbsp;&nbsp; Sebastian, for the inspiration.<br>
+<br>
+<hr style="width: 100%; height: 2px;">
+<div style="text-align: center;"><small>Let me
+hear the battlecry<br>
+Calling on the wind<br>
+Let me see the banners fly<br>
+Before the storm begins.<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; <span
+ style="font-style: italic;">---Judas Priest</span><br>
+</small></div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,16 @@
+For next release:
+[H] check why stupid stuff is needed on the word lists (strings and single words, commas etc.)
+[H] check why xLiner can output empty strings
+[H] fix "Save Lyrics" on GUI  to create valid HTML files
+[H] don't load dictionary when it's not needed (show only info, no rhyming in module)
+[H] When rhyming, skip words that are set equal in lists
+[H] handle exceptions (for example, if a word is not in the dictionary)
+[M] clean battlecry.java, bcGUI
+
+Misc:
+[H] in Generator, use bcWord instead of String
+[M] add "+" to grammar parser ("it's the noun+'s time to verb")
+[M] support for "programs" in layout.dat
+[M] Enable multiple rhyme keys
+[M] Read secondary entries from cmudict (i.e. those marked "(2)" and "(3)")
+[L] allow double rhymes (i.e. "metal fight" - "battle might")
