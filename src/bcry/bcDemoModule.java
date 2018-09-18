@@ -128,7 +128,7 @@ class bcDemoModule {
    
    private void initDemoLayout() {
       
-      layout = new LinkedList();
+      layout = new ArrayList();
       
       layout.add("verse:ababcdcd");
       layout.add("chorus:aabbcc");
@@ -143,7 +143,7 @@ class bcDemoModule {
    
    private void initDemoWordLists() {
    
-      wordLists = new LinkedList();
+      wordLists = new ArrayList();
       bcWordList tempList;
 
       tempList = new bcWordList("adjective");

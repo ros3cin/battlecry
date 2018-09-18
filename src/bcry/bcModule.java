@@ -22,6 +22,7 @@ import java.io.*;
 import java.util.*;
 import java.util.zip.*;
 import java.util.List.*;
+import org.eclipse.collections.impl.list.mutable.FastList;
 
 /* THE BATTLECRY MODULE CLASS
  * This class represents a Battlecry Module.
@@ -299,7 +300,7 @@ class bcModule {
     */
    private boolean loadWordLists(InputStream wordFile) {
 
-      if (wordLists == null) {wordLists = new LinkedList();}
+      if (wordLists == null) {wordLists = new FastList();}
       bcWordList tempList = new bcWordList("BC_DUMMY_LIST");
       bcWordList splitList = new bcWordList("BC_SPLIT_STRINGS"); //Create an extra list for single words
       String line;
@@ -383,7 +384,7 @@ class bcModule {
       String line;
       boolean result = true;
       try {
-         layout = new LinkedList();
+         layout = new FastList();
          BufferedReader lo = new BufferedReader(new InputStreamReader(layoutFile));
          while ((line = lo.readLine()) != null) {
             layout.add(line);

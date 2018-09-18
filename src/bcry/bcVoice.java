@@ -34,7 +34,7 @@ class bcVoice {
 
    /* CLASS CONSTRUCTOR */
    public bcVoice(boolean[] options, battlecryGUI g) {
-      lyrics = new LinkedList();
+      lyrics = new ArrayList();
       gui = g;
       verbose = options[0];
       lyricsToScreen = options[1];
@@ -130,6 +130,6 @@ class bcVoice {
     * resets the lyrics string list to prepare for a new set of lyrics.
     */
    public void resetLyrics() {
-      lyrics = new LinkedList();
+      lyrics = new ArrayList();
    }
 }
