@@ -48,7 +48,7 @@ class bcWordList {
 
     public bcWord getItem(int n) {
         bcWord result = null;
-        Enumeration e = list.elements();
+        Enumeration e = java.util.Collections.enumeration(list.values());
         int i = 0;
         while ((e.hasMoreElements()) && (i <= n)) {
             result = (bcWord) e.nextElement();
